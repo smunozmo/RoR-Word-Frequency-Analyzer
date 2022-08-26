@@ -1,0 +1,57 @@
+<div class="card-header shadow-sm">
+  <div class="d-flex justify-content-between small-text align-items-top pb-2 border-bottom">
+    <%= link_to "< Home", samples_path, :class => "link-secondary pe-2" %>
+    <%= link_to "New sample >", new_sample_path, :class => "link-secondary ps-2" %>
+  </div>
+  <p class="text-warning pt-1 text-center"><%= notice %></p>
+  <div class="row align-items-center border-bottom border-light p-3 text-muted">
+    <div class="col align-items-end text-start pt-1">
+      <p class="h5 text-dark fw-bold">Word Frequency Analyzer</p>
+    </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="card-body p-0">
+  <div class="container">
+      <div class="row align-items-end border-bottom border-light shadow-sm bg-warning text-dark">
+          <div class="col-6 text-center border-end">
+            <p class="mt-2 fs-5 fw-bold">Sample name</p>
+          </div>
+          <div class="col-3 text-center border-end">
+            <p class="mt-2 fs-5 fw-bold">Total Words</p>
+          </div>
+          <div class="col-3 text-center">
+            <p class="mt-2 fs-5 fw-bold">View / Delete</p>
+          </div>
+          
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row align-items-center border-bottom border-light shadow-sm py-1 text-muted">
+      <% @samples.each do |sample| %>
+        <div class="col-6 text-center border-end">
+          <p class="mt-2 pe-2 fs-5"><%= sample.name%></p>
+        </div>
+        <div class="col-3 text-center border-end">
+          <p class="mt-2 fs-5"><%= sample.words_count%></p>
+        </div>
+        <div class="col-3 text-center">
+          <span class="badge rounded-pill text-bg-warning p-2">
+            <%= button_to sample, method: :get, :class => "bg-transparent border border-0" do %>
+              <i class="fa-solid fa-eye text-light"></i>
+            <% end %>
+          </span>
+          <span class="badge rounded-pill text-bg-danger p-2">
+            <%= button_to sample, method: :delete, :class => "bg-transparent border border-0" do %>
+              <i class="fa-solid fa-trash-can text-light"></i>
+            <% end %>
+          </span>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+

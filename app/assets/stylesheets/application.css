@@ -13,3 +13,12 @@
  *= require_tree .
  *= require_self
  */
+
+a,
+button {
+  text-decoration: none !important;
+}
+
+.small-text {
+  font-size: 0.8em;
+}
