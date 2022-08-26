@@ -8,7 +8,7 @@ This a Ruby on Rails based word counting app, an interactive project where you c
 
 ## Live Demo
 
-https://herokuapp.com/
+https://warm-temple-79508.herokuapp.com/
 
 ## Built With
 
