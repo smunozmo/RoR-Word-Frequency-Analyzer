@@ -1,11 +1,14 @@
 class SamplesController < ApplicationController
+
   before_action :set_sample, only: %i[ show edit update destroy ]
+  include SamplesHelper
 
   def index
-    @samples = Sample.all
+    @samples = Sample.all.reverse
   end
 
   def show
+    @sample.histogram = @sample.histogram.sort_by {|k, v| v.to_i}.reverse.to_h
   end
 
   def new
@@ -13,6 +16,7 @@ class SamplesController < ApplicationController
   end
 
   def create
+
     if sample_params[:text_sample].nil? && sample_params[:text_input].nil?
       flash[:alert] = 'Please upload a text file or input the text manually.'
       redirect_to new_sample_url 
@@ -47,8 +51,21 @@ class SamplesController < ApplicationController
     end
   end
 
+  def update
+    respond_to do |format|
+      if @sample.update(sample_params)
+        format.html { redirect_to sample_url(@sample), notice: "Sample was successfully updated." }
+        format.json { render :show, status: :ok, location: @sample }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: @sample.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   def destroy
     @sample.destroy
+    @sample.text_sample.purge
 
     respond_to do |format|
       format.html { redirect_to samples_url, notice: "Sample was successfully destroyed." }
