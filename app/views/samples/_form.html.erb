@@ -1,37 +1,67 @@
-<%= form_with(model: sample) do |form| %>
-  <% if sample.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(sample.errors.count, "error") %> prohibited this sample from being saved:</h2>
-
-      <ul>
-        <% sample.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div>
-    <%= form.label :name, style: "display: block" %>
-    <%= form.text_field :name %>
-  </div>
-
-  <div>
-    <%= form.label :histogram, style: "display: block" %>
-    <%= form.text_field :histogram %>
-  </div>
-
-  <div>
-    <%= form.label :words_count, style: "display: block" %>
-    <%= form.number_field :words_count %>
-  </div>
-
-  <div>
-    <%= form.label :cycles, style: "display: block" %>
-    <%= form.number_field :cycles %>
-  </div>
-
-  <div>
-    <%= form.submit %>
-  </div>
+<% content_for :javascript_includes do %>
+  <%= javascript_include_tag "form.js" %>
 <% end %>
+
+<div class="card-header shadow-sm">
+  <div class="d-flex justify-content-between small-text align-items-top pb-2 border-bottom">
+    <%= link_to "< Home", samples_path, :class => "link-secondary pe-2" %>
+    <%= link_to "New sample >", new_sample_path, :class => "link-secondary ps-2" %>
+  </div>
+  <p class="text-warning pt-1 text-center"><%= alert %></p>
+
+  <div class="row align-items-center border-bottom border-light p-3 text-muted">
+    <div class="col align-items-end text-start pt-1">
+      <p class="h5 text-dark fw-bold">Analyze a new text:</p>
+    </div>
+    </div>
+  </div>
+</div>
+
+<div class="card-body p-0 border-light shadow-sm">
+  <div class="container">
+    <%= form_with(model: sample) do |form| %>
+      <% if sample.errors.any? %>
+        <div class="text-danger">
+          <h2><%= pluralize(sample.errors.count, "error") %> prohibited this sample from being saved:</h2>
+
+          <ul>
+            <% sample.errors.each do |error| %>
+              <li><%= error.full_message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+      <div class="row align-items-center border-bottom  p-3 text-muted">
+       
+        <div class="field py-2">
+         To analyse a text you can:
+        </div>
+        <div class="field py-2">
+          <%= form.radio_button "radio", 'file', :id => "fileRadio", :checked => true %>
+          Upload a file &nbsp;
+          <%= form.radio_button "radio", 'input', :id => "inputRadio" %>
+          Input text manually
+          <br />
+        </div>
+        <div class="field">
+          <%= form.label "File: ", :class => "form-label" %>
+          <br />
+          <%= form.file_field :text_sample, :id => "fileField" %>
+        <div>
+        <div class="field pt-2">
+          <%= form.label "Input your text: ", style: "display: block", :class => "form-label" %>
+          <%= form.text_field :text_input, :disabled => true, :id => "textField" %>
+        </div class="field pt-2">
+          <%= form.label "Sample name:", style: "display: block" %>
+          <%= form.text_field :name, :required => true %>
+        </div>
+
+
+        <div class="pt-3">
+          <%= form.submit "Analyse text", class: 'btn btn-warning text-dark px-4 rounded-3'%>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
