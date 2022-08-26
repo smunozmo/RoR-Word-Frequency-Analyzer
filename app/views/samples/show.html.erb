@@ -1,10 +1,61 @@
-<p style="color: green"><%= notice %></p>
 
-<%= render @sample %>
+<div class="card-header shadow-sm">
+  <div class="d-flex justify-content-between small-text align-items-top pb-2 border-bottom">
+    <%= link_to "< Home", samples_path, :class => "link-secondary pe-2" %>
+    <%= link_to "New sample >", new_sample_path, :class => "link-secondary ps-2" %>
+  </div>
+  <p class="text-warning pt-1 text-center"><%= notice %></p>
+  <div class="row align-items-center border-bottom border-light p-3 text-muted">
+    <div class="col-3 align-items-end text-end pt-1">
+      <p class="h5 text-dark fw-bold">Analysis Result:</p>
+    </div>
+    <div class="col text-end pt-2 small-text">
+      <p class="text-muted small-text">Sample: <%= @sample.name%></p>
+    </div>
+    <div class="col text-end pt-2 small-text">
+      <p class="text-muted small-text">Total words: <%= @sample.words_count%></p>
+    </div>
+    <div class="col text-end pt-2 small-text">
+      <p class="text-muted small-text">Cycles done: <%= @sample.cycles%></p>
+    </div>
+    <div class="col text-end">
+      <span class="badge rounded-pill text-bg-danger p-2">
+        <%= button_to @sample, method: :delete, :class => "bg-transparent border border-0" do %>
+          <i class="fa-solid fa-trash-can text-light"></i>
+        <% end %>
+      </span>
+    </div>
+  </div>
+</div>
 
+<div class="card-body p-0">
+  <div class="container">
+    <div class="row align-items-end border-bottom border-light shadow-sm bg-warning text-dark">
+        <div class="col-3 text-end border-end">
+          <p class="mt-2 pe-2 fw-bold fs-5">Word Total</p>
+        </div>
+        <div class="col-9 text-center">
+          <p class="mt-2 fw-bold fs-5">Percentage</p>
+        </div>
+    </div>
+  </div>
+  <div class="container p-0 m-0">
+    <div class="row align-items-center border-bottom border-light shadow-sm py-3 text-muted">
+      <% @sample.histogram.each do |k, v| %>
+        <div class="col-3 text-end pb-1 pe-3 fw-bold">
+          <%= k %> (<%= v %>)
+        </div>
+        <div class="col-9 text-center pb-1">
+          <div class="progress">
+            <% percentage = sprintf('%.1f', v.to_i/(@sample.words_count).to_f*100) %>
+            <div class="progress-bar progress-bar-striped bg-warning progress-bar-animated text-dark fw-bold" role="progressbar" aria-label="Example with label" style="width: <%= percentage %>%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+              <%= percentage %>%
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
 <div>
-  <%= link_to "Edit this sample", edit_sample_path(@sample) %> |
-  <%= link_to "Back to samples", samples_path %>
-
-  <%= button_to "Destroy this sample", @sample, method: :delete %>
 </div>
