@@ -13,15 +13,36 @@ class SamplesController < ApplicationController
   end
 
   def create
-    @sample = Sample.new(sample_params)
+    if sample_params[:text_sample].nil? && sample_params[:text_input].nil?
+      flash[:alert] = 'Please upload a text file or input the text manually.'
+      redirect_to new_sample_url 
 
-    respond_to do |format|
-      if @sample.save
-        format.html { redirect_to sample_url(@sample), notice: "Sample was successfully created." }
-        format.json { render :show, status: :created, location: @sample }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @sample.errors, status: :unprocessable_entity }
+    else 
+     
+      @sample = Sample.new
+      @sample.name = sample_params[:name]
+      
+      sample_counter = SampleCounter.new(@sample)
+      
+      sample_counter.count_from_input sample_params[:text_input] unless sample_params[:text_input].nil?
+      
+      unless sample_params[:text_sample].nil?
+       unless validate_file_type sample_params[:text_sample]
+        flash[:alert] = 'File must be a text/plain file.'
+        return redirect_to new_sample_url
+       else
+        sample_counter.count_from_file sample_params[:text_sample]
+       end
+      end
+      
+      respond_to do |format|
+        if @sample.save
+          format.html { redirect_to sample_url(@sample), notice: "Success!." }
+          format.json { render :show, status: :created, location: @sample }
+        else
+          format.html { render :new, status: :unprocessable_entity }
+          format.json { render json: @sample.errors, status: :unprocessable_entity }
+        end
       end
     end
   end
@@ -42,6 +63,6 @@ class SamplesController < ApplicationController
     end
 
     def sample_params
-      params.require(:sample).permit(:name, :histogram, :words_count, :cycles)
+      params.require(:sample).permit(:name, :histogram, :words_count, :cycles, :text_sample, :text_input, :radio)
     end
 end
