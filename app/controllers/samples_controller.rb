@@ -1,25 +1,17 @@
 class SamplesController < ApplicationController
   before_action :set_sample, only: %i[ show edit update destroy ]
 
-  # GET /samples or /samples.json
   def index
     @samples = Sample.all
   end
 
-  # GET /samples/1 or /samples/1.json
   def show
   end
 
-  # GET /samples/new
   def new
     @sample = Sample.new
   end
 
-  # GET /samples/1/edit
-  def edit
-  end
-
-  # POST /samples or /samples.json
   def create
     @sample = Sample.new(sample_params)
 
@@ -34,20 +26,6 @@ class SamplesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /samples/1 or /samples/1.json
-  def update
-    respond_to do |format|
-      if @sample.update(sample_params)
-        format.html { redirect_to sample_url(@sample), notice: "Sample was successfully updated." }
-        format.json { render :show, status: :ok, location: @sample }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @sample.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /samples/1 or /samples/1.json
   def destroy
     @sample.destroy
 
@@ -58,12 +36,11 @@ class SamplesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
+
     def set_sample
       @sample = Sample.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
     def sample_params
       params.require(:sample).permit(:name, :histogram, :words_count, :cycles)
     end
