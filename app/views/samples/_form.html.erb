@@ -1,0 +1,37 @@
+<%= form_with(model: sample) do |form| %>
+  <% if sample.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(sample.errors.count, "error") %> prohibited this sample from being saved:</h2>
+
+      <ul>
+        <% sample.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :name, style: "display: block" %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div>
+    <%= form.label :histogram, style: "display: block" %>
+    <%= form.text_field :histogram %>
+  </div>
+
+  <div>
+    <%= form.label :words_count, style: "display: block" %>
+    <%= form.number_field :words_count %>
+  </div>
+
+  <div>
+    <%= form.label :cycles, style: "display: block" %>
+    <%= form.number_field :cycles %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

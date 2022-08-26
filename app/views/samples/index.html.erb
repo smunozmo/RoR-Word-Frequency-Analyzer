@@ -1,2 +1,14 @@
-<h1>Samples#index</h1>
-<p>Find me in app/views/samples/index.html.erb</p>
+<p style="color: green"><%= notice %></p>
+
+<h1>Samples</h1>
+
+<div id="samples">
+  <% @samples.each do |sample| %>
+    <%= render sample %>
+    <p>
+      <%= link_to "Show this sample", sample %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New sample", new_sample_path %>
