@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # app/validators/sample_validator.rb
 class SampleValidator < ActiveModel::Validator
   def validate(record)

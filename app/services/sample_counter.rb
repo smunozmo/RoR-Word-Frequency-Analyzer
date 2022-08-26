@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # app/services/sample_counter.rb
 class SampleCounter
   def initialize(sample, total_words = 0, iterations = 0)

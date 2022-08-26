@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class Sample < ApplicationRecord
   include ActiveModel::Validations
   has_one_attached :text_sample

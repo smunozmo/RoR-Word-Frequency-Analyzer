@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # app/controllers/samples_controller.rb
 class SamplesController < ApplicationController
   before_action :set_sample, only: %i[show edit update destroy]
@@ -17,7 +15,7 @@ class SamplesController < ApplicationController
     @sample = Sample.new
   end
 
-  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
+  # rubocop:disable Metrics/MethodLength, Metrics/PerceivedComplexity
   def create
     if sample_params[:text_sample].nil? && sample_params[:text_input].nil?
       flash[:alert] = 'Please upload a text file or input the text manually.'
@@ -52,7 +50,7 @@ class SamplesController < ApplicationController
       end
     end
   end
-  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
+  # rubocop:enable Metrics/MethodLength, Metrics/PerceivedComplexity
 
   def update
     respond_to do |format|
